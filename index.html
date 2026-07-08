@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar y Modificar Productos</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>Inventario</h1>
+
+    <nav>
+        <ul class="menu">
+        </ul>
+    </nav>
+</header>
+
+
+<main>
+
+<h2>Consulta de Productos</h2>
+
+
+<div class="busqueda">
+
+    <input type="text" id="buscar" placeholder="Buscar por código o nombre">
+
+    <button onclick="buscarProducto()">Buscar</button>
+
+</div>
+
+
+
+<table id="tablaProductos">
+
+<thead>
+
+<tr>
+    <th>ID</th>
+    <th>Código</th>
+    <th>Producto</th>
+    <th>Categoría</th>
+    <th>Precio</th>
+    <th>Stock</th>
+    <th>Acciones</th>
+</tr>
+
+</thead>
+
+
+<tbody>
+
+
+<tr>
+<td>1</td>
+<td>P001</td>
+<td>Laptop Lenovo</td>
+<td>Computación</td>
+<td>850</td>
+<td>20</td>
+
+<td>
+<button class="editar">Editar</button>
+<button class="eliminar">Eliminar</button>
+</td>
+
+</tr>
+
+
+
+<tr>
+<td>2</td>
+<td>P002</td>
+<td>Mouse Logitech</td>
+<td>Accesorios</td>
+<td>25</td>
+<td>60</td>
+
+<td>
+<button class="editar">Editar</button>
+<button class="eliminar">Eliminar</button>
+</td>
+
+</tr>
+
+
+
+<tr>
+<td>3</td>
+<td>P003</td>
+<td>Teclado Mecánico</td>
+<td>Accesorios</td>
+<td>70</td>
+<td>15</td>
+
+<td>
+<button class="editar">Editar</button>
+<button class="eliminar">Eliminar</button>
+</td>
+
+</tr>
+
+
+
+<tr>
+<td>4</td>
+<td>P004</td>
+<td>Monitor Samsung</td>
+<td>Monitores</td>
+<td>220</td>
+<td>18</td>
+
+<td>
+<button class="editar">Editar</button>
+<button class="eliminar">Eliminar</button>
+</td>
+
+</tr>
+
+
+
+<tr>
+<td>5</td>
+<td>P005</td>
+<td>Disco SSD 1TB</td>
+<td>Almacenamiento</td>
+<td>110</td>
+<td>30</td>
+
+<td>
+<button class="editar">Editar</button>
+<button class="eliminar">Eliminar</button>
+</td>
+
+</tr>
+
+
+</tbody>
+
+</table>
+
+
+
+<div class="paginacion">
+
+<a href="#">«</a>
+<a href="#" class="activo">1</a>
+<a href="#">2</a>
+<a href="#">3</a>
+<a href="#">»</a>
+
+</div>
+
+
+
+</main>
+
+<form id="formAgregar">
+
+<h2>Agregar Producto</h2>
+
+<label>Código</label>
+<input type="text" id="nuevoCodigo" required>
+
+<label>Producto</label>
+<input type="text" id="nuevoProducto" required>
+
+<label>Categoría</label>
+<input type="text" id="nuevaCategoria" required>
+
+<label>Precio</label>
+<input type="number" id="nuevoPrecio" required>
+
+<label>Stock</label>
+<input type="number" id="nuevoStock" required>
+
+<br><br>
+
+<button type="submit">Agregar Producto</button>
+
+</form>
+
+
+
+
+
+<!-- VENTANA PARA EDITAR -->
+
+<div id="modalEditar" class="modal">
+
+
+<div class="modal-contenido">
+
+
+<h2>Modificar Producto</h2>
+
+
+<form id="formEditar">
+
+
+<label>Código</label>
+<input type="text" id="codigo">
+
+
+<label>Producto</label>
+<input type="text" id="producto">
+
+
+<label>Categoría</label>
+<input type="text" id="categoria">
+
+
+<label>Precio</label>
+<input type="number" id="precio">
+
+
+<label>Stock</label>
+<input type="number" id="stock">
+
+
+<br><br>
+
+
+<button type="submit">
+Guardar Cambios
+</button>
+
+
+<button type="button" id="cerrar">
+Cancelar
+</button>
+
+
+</form>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<script>
+
+
+let filaSeleccionada = null;
+
+
+
+// EDITAR PRODUCTO
+
+document.querySelectorAll(".editar").forEach(function(boton){
+
+
+boton.onclick = function(){
+
+
+filaSeleccionada = this.parentElement.parentElement;
+
+
+document.getElementById("codigo").value =
+filaSeleccionada.cells[1].innerText;
+
+
+document.getElementById("producto").value =
+filaSeleccionada.cells[2].innerText;
+
+
+document.getElementById("categoria").value =
+filaSeleccionada.cells[3].innerText;
+
+
+document.getElementById("precio").value =
+filaSeleccionada.cells[4].innerText;
+
+
+document.getElementById("stock").value =
+filaSeleccionada.cells[5].innerText;
+
+
+
+document.getElementById("modalEditar").style.display="flex";
+
+
+};
+
+
+});
+
+
+
+
+
+// GUARDAR CAMBIOS
+
+
+document.getElementById("formEditar").onsubmit=function(e){
+
+
+e.preventDefault();
+
+
+
+filaSeleccionada.cells[1].innerText =
+document.getElementById("codigo").value;
+
+
+filaSeleccionada.cells[2].innerText =
+document.getElementById("producto").value;
+
+
+filaSeleccionada.cells[3].innerText =
+document.getElementById("categoria").value;
+
+
+filaSeleccionada.cells[4].innerText =
+document.getElementById("precio").value;
+
+
+filaSeleccionada.cells[5].innerText =
+document.getElementById("stock").value;
+
+
+
+alert("Producto modificado correctamente");
+
+
+document.getElementById("modalEditar").style.display="none";
+
+
+};
+
+
+
+
+
+// CERRAR MODAL
+
+
+document.getElementById("cerrar").onclick=function(){
+
+
+document.getElementById("modalEditar").style.display="none";
+
+
+};
+
+
+
+
+
+
+// ELIMINAR PRODUCTO
+
+
+document.querySelectorAll(".eliminar").forEach(function(boton){
+
+
+boton.onclick=function(){
+
+
+let confirmar = confirm("¿Desea eliminar este producto?");
+
+
+if(confirmar){
+
+
+this.parentElement.parentElement.remove();
+
+
+}
+
+
+};
+
+
+});
+
+
+
+
+
+
+function buscarProducto(){
+
+    let texto = document.getElementById("buscar").value.toLowerCase().trim();
+
+    let filas = document.querySelectorAll("#tablaProductos tbody tr");
+
+    filas.forEach(function(fila){
+
+        let codigo = fila.cells[1].innerText.toLowerCase();
+        let producto = fila.cells[2].innerText.toLowerCase();
+
+        if(texto === ""){
+            fila.style.display = "";
+        }else if(codigo.includes(texto) || producto.includes(texto)){
+            fila.style.display = "";
+        }else{
+            fila.style.display = "none";
+        }
+
+    });
+
+}
+
+document.getElementById("buscar").addEventListener("keyup", function(){
+
+    if(this.value.trim() === ""){
+
+        let filas = document.querySelectorAll("#tablaProductos tbody tr");
+
+        filas.forEach(function(fila){
+            fila.style.display = "";
+        });
+
+    }
+
+});
+
+let contadorID = 6;
+
+document.getElementById("formAgregar").onsubmit = function(e){
+
+    e.preventDefault();
+
+
+    let tabla = document.querySelector("#tablaProductos tbody");
+
+
+    let fila = document.createElement("tr");
+
+
+    fila.innerHTML = `
+
+    <td>${contadorID}</td>
+    <td>${document.getElementById("nuevoCodigo").value}</td>
+    <td>${document.getElementById("nuevoProducto").value}</td>
+    <td>${document.getElementById("nuevaCategoria").value}</td>
+    <td>${document.getElementById("nuevoPrecio").value}</td>
+    <td>${document.getElementById("nuevoStock").value}</td>
+
+    <td>
+        <button class="editar">Editar</button>
+        <button class="eliminar">Eliminar</button>
+    </td>
+
+    `;
+
+
+    tabla.appendChild(fila);
+
+
+    contadorID++;
+
+
+    this.reset();
+
+
+    agregarEventos();
+
+};
+
+
+
+function agregarEventos(){
+
+
+document.querySelectorAll(".editar").forEach(function(boton){
+
+boton.onclick=function(){
+
+filaSeleccionada=this.parentElement.parentElement;
+
+
+document.getElementById("codigo").value=filaSeleccionada.cells[1].innerText;
+document.getElementById("producto").value=filaSeleccionada.cells[2].innerText;
+document.getElementById("categoria").value=filaSeleccionada.cells[3].innerText;
+document.getElementById("precio").value=filaSeleccionada.cells[4].innerText;
+document.getElementById("stock").value=filaSeleccionada.cells[5].innerText;
+
+
+document.getElementById("modalEditar").style.display="flex";
+
+};
+
+});
+
+
+
+document.querySelectorAll(".eliminar").forEach(function(boton){
+
+boton.onclick=function(){
+
+if(confirm("¿Eliminar este producto?")){
+
+this.parentElement.parentElement.remove();
+
+}
+
+};
+
+});
+
+
+}
+
+
+agregarEventos();
+
+
+
+</script>
+
+
+
+</body>
+
+</html>
